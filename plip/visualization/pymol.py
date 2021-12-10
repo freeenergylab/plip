@@ -420,6 +420,13 @@ class PyMOLVisualizer:
         cmd.select('AllBSRes', 'byres (Hydrophobic-P or HBondDonor-P or HBondAccept-P or PosCharge-P or NegCharge-P or '
                                'StackRings-P or PiCatRing-P or HalogenAcc or Metal-P)')
         cmd.show('sticks', 'AllBSRes')
+
+        cmd.select('AllBSRes1', 'name C & AllBSRes')
+        cmd.label('AllBSRes1', 'resi')
+        cmd.select('AllBSRes2', 'bycalpha (Hydrophobic-P or HBondDonor-P or HBondAccept-P or PosCharge-P or NegCharge-P or '
+                               'StackRings-P or PiCatRing-P or HalogenAcc or Metal-P)')
+        cmd.label('AllBSRes2', 'resn')
+
         # Show spheres for the ring centroids
         cmd.hide('everything', 'centroids*')
         cmd.show('nb_spheres', 'centroids*')
