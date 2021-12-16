@@ -234,7 +234,7 @@ class PyMOLVisualizer:
                 cmd.select('tmp_don', 'id %i & %s' % (bridge.don_id, self.ligname))
                 cmd.select('tmp_acc', 'id %i & %s' % (bridge.acc_id, self.protname))
             cmd.select('Water', 'Water or (id %i & (resn HOH or resn WAT))' % bridge.water_id)
-            cmd.select('tmp_water', 'id %i & resn HOH' % bridge.water_id)
+            cmd.select('tmp_water', 'id %i & (resn HOH or resn WAT)' % bridge.water_id)
             cmd.distance('WaterBridges', 'tmp_acc', 'tmp_water')
             cmd.distance('WaterBridges', 'tmp_don', 'tmp_water')
         if self.object_exists('WaterBridges'):
@@ -445,8 +445,9 @@ class PyMOLVisualizer:
         cmd.set('stick_transparency', 1, '%sCartoon' % self.protname)
 
         # Resize water molecules. Sometimes they are not heteroatoms HOH, but part of the protein
-        cmd.set('sphere_scale', 0.2, 'resn HOH or Water')  # Needs to be done here because of the copy made
-        cmd.set('sphere_transparency', 0.4, '!(resn HOH or Water)')
+        # Needs to be done here because of the copy made
+        cmd.set('sphere_scale', 0.2, 'resn HOH or resn WAT or Water') 
+        cmd.set('sphere_transparency', 0.4, '!(resn HOH or resn WAT or Water)')
 
         if 'Centroids*' in cmd.get_names("selections"):
             cmd.color('grey80', 'Centroids*')
@@ -455,7 +456,7 @@ class PyMOLVisualizer:
         if self.ligname == 'SF4':  # Special case for iron-sulfur clusters, can't be visualized with sticks
             cmd.show('spheres', '%s' % self.ligname)
 
-        cmd.hide('everything', 'resn HOH &!Water')  # Hide all non-interacting water molecules
+        cmd.hide('everything', '(resn HOH or resn WAT)&!Water')  # Hide all non-interacting water molecules
         cmd.hide('sticks', '%s and !%s and !AllBSRes' %
                  (self.protname, self.ligname))  # Hide all non-interacting residues
 
