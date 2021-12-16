@@ -233,7 +233,7 @@ class PyMOLVisualizer:
                 cmd.select('HBondAccept-P', 'HBondAccept-P or (id %i & %s)' % (bridge.acc_id, self.protname))
                 cmd.select('tmp_don', 'id %i & %s' % (bridge.don_id, self.ligname))
                 cmd.select('tmp_acc', 'id %i & %s' % (bridge.acc_id, self.protname))
-            cmd.select('Water', 'Water or (id %i & resn HOH)' % bridge.water_id)
+            cmd.select('Water', 'Water or (id %i & (resn HOH or resn WAT))' % bridge.water_id)
             cmd.select('tmp_water', 'id %i & resn HOH' % bridge.water_id)
             cmd.distance('WaterBridges', 'tmp_acc', 'tmp_water')
             cmd.distance('WaterBridges', 'tmp_don', 'tmp_water')
