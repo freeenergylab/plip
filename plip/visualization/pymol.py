@@ -50,6 +50,7 @@ class PyMOLVisualizer:
         cmd.set('cartoon_fancy_helices', 1)  # Nicer visualization of helices (using tapered ends)
         cmd.set('transparency_mode', 1)  # Turn on multilayer transparency
         cmd.set('dash_radius', 0.05)
+        cmd.set('label_size', 20) # Set label size globally
         self.set_custom_colorset()
 
     @staticmethod
@@ -308,7 +309,8 @@ class PyMOLVisualizer:
         """Cleanup of various representations"""
 
         cmd.remove('not alt ""+A')  # Remove alternate conformations
-        cmd.hide('labels', 'Interactions')  # Hide labels of lines
+        # Hide labels of lines; this can label all distances
+        # cmd.hide('labels', 'Interactions') 
         cmd.disable('%sCartoon' % self.protname)
         cmd.hide('everything', 'hydrogens')
 
